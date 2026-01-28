@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Catatan Pengeluaran</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1></h1>
+    </div>
+    <button id="btnRefresh" class="btn ghost" type="button">Refresh</button>
+  </header>
+
+  <main class="grid">
+    <!-- Form -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Tambah Pengeluaran</h2>
+        <span id="badgeSaving" class="badge hidden">
+          <span class="spinner" aria-hidden="true"></span>
+          Menyimpan…
+        </span>
+      </div>
+
+      <form id="expenseForm" class="form">
+        <div class="field">
+          <label for="date">Tanggal</label>
+          <input id="date" type="date" required />
+        </div>
+
+        <div class="field">
+          <label for="category">Kategori</label>
+          <input id="category" type="text" placeholder="Makan / Transport / dll" required />
+        </div>
+
+        <div class="field">
+          <label for="amount">Nominal</label>
+          <input id="amount" type="number" min="1" step="1" placeholder="25000" required />
+        </div>
+
+        <div class="field full">
+          <label for="note">Catatan (opsional)</label>
+          <input id="note" type="text" placeholder="Contoh: ayam geprek" />
+        </div>
+
+        <div class="actions full">
+          <button id="btnAdd" class="btn primary" type="submit">
+            <span id="btnAddText">Tambah</span>
+          </button>
+          <button id="btnClear" class="btn ghost" type="button">Reset</button>
+        </div>
+
+        <p id="status" class="status"></p>
+      </form>
+    </section>
+
+    <!-- Summary + Table -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Ringkasan</h2>
+        <div class="picker">
+          <select id="monthPick" class="select" aria-label="Bulan">
+            <option value="01">Jan</option><option value="02">Feb</option>
+            <option value="03">Mar</option><option value="04">Apr</option>
+            <option value="05">Mei</option><option value="06">Jun</option>
+            <option value="07">Jul</option><option value="08">Agu</option>
+            <option value="09">Sep</option><option value="10">Okt</option>
+            <option value="11">Nov</option><option value="12">Des</option>
+          </select>
+          <select id="yearPick" class="select" aria-label="Tahun"></select>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="tile">
+          <div class="muted">Total bulan</div>
+          <div id="monthTotal" class="big">0</div>
+        </div>
+        <div class="tile">
+          <div class="muted">Total tahun</div>
+          <div id="yearTotal" class="big">0</div>
+        </div>
+        <div class="tile">
+          <div class="muted">Transaksi tampil</div>
+          <div id="countTotal" class="big">0</div>
+        </div>
+      </div>
+
+      <div class="table-top">
+        <input id="q" class="search" type="text" placeholder="Cari kategori/catatan..." />
+        <button id="btnExport" class="btn ghost" type="button">Export CSV</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Kategori</th>
+              <th class="right">Nominal</th>
+              <th>Catatan</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr><td colspan="4" class="muted">Belum ada data.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="muted footnote">Total tahun = akumulasi semua transaksi pada tahun yang dipilih.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
