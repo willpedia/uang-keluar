@@ -30,7 +30,6 @@ document.getElementById("btnClear").addEventListener("click", () => {
   categoryEl.focus();
 });
 
-document.getElementById("btnRefresh").addEventListener("click", () => loadAndRender());
 document.getElementById("btnExport").addEventListener("click", () => exportCSV());
 
 monthPick.addEventListener("change", () => render());
@@ -327,5 +326,6 @@ form.addEventListener("submit", async (ev) => {
   // yearPick diisi saat loadAndRender()
   loadAndRender();
 })();
+
 
 
