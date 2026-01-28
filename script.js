@@ -1,5 +1,5 @@
 // ====== KONFIG ======
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbyWJQx3AJlaZmNUVIOpf-e89ZXKo2SA0uODRqmvxNc4zaHRLPN8913-AHG2a55TgGs/exec";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbxa40mZT0UGLZWjHD7ZULV7KBk0VDrMwbldsXgYeIacYZ5DmGICgHlqjmPzbbFwmKx0/exec";
 const API_KEY = "akumaubelibmwm4semogabisa";
 
 // DOM
@@ -327,4 +327,5 @@ form.addEventListener("submit", async (ev) => {
   // yearPick diisi saat loadAndRender()
   loadAndRender();
 })();
+
 
