@@ -138,10 +138,39 @@
     @keyframes spin{to{transform:rotate(360deg)}}
 
     .form{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-    .field{min-width:0}.full{grid-column:1/-1}
+    .field{min-width:0;max-width:100%}.full{grid-column:1/-1}
     label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:.07em}
     input,select{display:block;width:100%;max-width:100%;min-width:0;min-height:45px;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--text);padding:10px 12px;outline:none;transition:border .15s,box-shadow .15s,background .15s}
-    input[type="date"]{inline-size:100%;max-inline-size:100%;min-inline-size:0;box-sizing:border-box}
+    /* Perbaikan khusus Safari/iPhone: input date tidak boleh memakai lebar intrinsik native. */
+    input[type="date"]{
+      display:block;
+      inline-size:100%!important;
+      width:100%!important;
+      min-inline-size:0!important;
+      max-inline-size:100%!important;
+      min-width:0!important;
+      max-width:100%!important;
+      -webkit-min-logical-width:0;
+      box-sizing:border-box;
+      -webkit-appearance:none;
+      appearance:none;
+      overflow:hidden;
+      font-size:16px;
+      line-height:1.2;
+      text-align:left;
+    }
+    input[type="date"]::-webkit-date-and-time-value{
+      width:100%;
+      min-width:0;
+      margin:0;
+      padding:0;
+      text-align:left;
+    }
+    input[type="date"]::-webkit-datetime-edit{
+      display:block;
+      min-width:0;
+      padding:0;
+    }
     input:focus,select:focus{border-color:#9b9a91;box-shadow:0 0 0 4px rgba(223,255,69,.22);background:var(--surface)}
     input::placeholder{color:#a19e96}
     .money-wrap{position:relative}.money-wrap::before{content:"Rp";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:11px;font-weight:850;z-index:1}.money-wrap input{padding-left:40px}
@@ -192,6 +221,13 @@
     @media(max-width:780px){
       .app{display:block}
       .sidebar{display:none}
+
+      /* iOS Safari akan memperbesar halaman saat fokus jika ukuran teks form di bawah 16px. */
+      input,
+      select,
+      textarea{
+        font-size:16px;
+      }
 
       /* Sisakan ruang karena navbar dikeluarkan dari alur halaman oleh position: fixed. */
       .main{
@@ -271,7 +307,7 @@
 
     <main class="main" id="dashboard">
       <header class="topbar">
-        <div class="greeting"><small>Keuangan pribadi Willy Budiman</small><h1>Halo, Willy!</h1></div>
+        <div class="greeting"><small>Keuangan pribadi Willy Budiman ✦</small><h1>Halo, Willy!</h1></div>
         <div class="top-actions">
           <button id="btnPrivacy" class="icon-btn" type="button" aria-label="Sembunyikan nominal" title="Mode privasi">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>
