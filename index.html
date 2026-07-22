@@ -79,7 +79,7 @@
     .sidebar-footer button:hover{background:#24251f}
 
     .main{min-width:0;padding:25px 30px 48px}
-    .topbar{position:static;inset:auto;display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:24px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:24px}
     .greeting small{display:block;color:var(--muted);font-weight:650;margin-bottom:2px}
     .greeting h1{margin:0;font-size:clamp(25px,3vw,37px);line-height:1.08;letter-spacing:-.045em}
     .top-actions{display:flex;align-items:center;gap:9px}
@@ -190,16 +190,35 @@
       :root{--sidebar:210px}.main{padding-left:22px;padding-right:22px}.stats{grid-template-columns:repeat(2,1fr)}.workspace{grid-template-columns:1fr}.hero-grid{grid-template-columns:1.4fr .8fr}
     }
     @media(max-width:780px){
-      .app{display:block}.sidebar{display:none}.main{padding-top:calc(18px + env(safe-area-inset-top));padding-right:calc(15px + env(safe-area-inset-right));padding-bottom:calc(92px + env(safe-area-inset-bottom));padding-left:calc(15px + env(safe-area-inset-left))}
+      .app{display:block}
+      .sidebar{display:none}
+
+      /* Sisakan ruang karena navbar dikeluarkan dari alur halaman oleh position: fixed. */
+      .main{
+        padding-top:calc(104px + env(safe-area-inset-top));
+        padding-right:calc(15px + env(safe-area-inset-right));
+        padding-bottom:calc(92px + env(safe-area-inset-bottom));
+        padding-left:calc(15px + env(safe-area-inset-left));
+      }
+
+      /* Sama seperti fixed top-0 left-0 right-0 z-50 pada referensi Tailwind. */
       .topbar{
-        position:-webkit-sticky;
-        position:sticky;
-        top:env(safe-area-inset-top);
-        z-index:30;
-        margin:-18px -15px 18px;
-        padding:18px 15px 12px;
-        background:var(--bg);
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        z-index:50;
+        width:100%;
+        margin:0;
+        padding-top:calc(10px + env(safe-area-inset-top));
+        padding-right:max(15px,env(safe-area-inset-right));
+        padding-bottom:10px;
+        padding-left:max(15px,env(safe-area-inset-left));
+        background:color-mix(in srgb,var(--bg) 94%,transparent);
         border-bottom:1px solid var(--line);
+        box-shadow:0 8px 24px rgba(0,0,0,.08);
+        backdrop-filter:blur(14px);
+        -webkit-backdrop-filter:blur(14px);
       }
       .avatar{padding-right:6px}.avatar b{display:none}
       .hero-grid{grid-template-columns:1fr}.balance-card{min-height:218px}.budget-card{min-height:210px}.stats{grid-template-columns:1fr 1fr}.workspace{grid-template-columns:1fr}
