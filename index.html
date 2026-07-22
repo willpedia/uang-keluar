@@ -292,7 +292,6 @@
       </nav>
       <div class="sidebar-spacer"></div>
       <div class="sync-card">
-        <strong>Google Sheets</strong>
         <span><i class="sync-dot"></i>Data tersambung & aktif</span>
       </div>
       <div class="sidebar-footer">
@@ -417,11 +416,23 @@
       </section>
     </main>
 
-    <nav class="mobile-nav" aria-label="Navigasi seluler">
-      <button class="active" type="button" onclick="location.hash='dashboard'"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Home</button>
-      <button type="button" onclick="location.hash='addTransaction'"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="9"/></svg>Tambah</button>
-      <button type="button" onclick="location.hash='transactions'"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Riwayat</button>
-      <button id="btnThemeMobile" type="button"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3a7 7 0 1 0 9 9 9 9 0 0 1-9-9Z"/></svg>Tema</button>
+    <nav class="mobile-nav" aria-label="Navigasi utama">
+      <button class="active" type="button" onclick="location.hash='dashboard'" aria-label="Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg>
+        <span>Home</span>
+      </button>
+      <button type="button" onclick="location.hash='addTransaction'" aria-label="Tambah transaksi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Tambah</span>
+      </button>
+      <button type="button" onclick="location.hash='transactions'" aria-label="Riwayat transaksi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        <span>Riwayat</span>
+      </button>
+      <button id="btnThemeMobile" type="button" aria-label="Ganti tema">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg>
+        <span>Tema</span>
+      </button>
     </nav>
   </div>
 
@@ -679,6 +690,30 @@
     $("#btnRefresh").addEventListener("click",()=>loadAndRender(true));
     ["#btnTheme","#btnThemeSide","#btnThemeMobile"].forEach(id=>$(id)?.addEventListener("click",toggleTheme));
     ["#btnPrivacy","#btnPrivacySide"].forEach(id=>$(id)?.addEventListener("click",togglePrivacy));
+
+    // Pindahkan latar kuning ke menu navbar bawah yang terakhir diklik.
+    const mobileNavButtons = document.querySelectorAll(".mobile-nav button");
+    mobileNavButtons.forEach(button=>{
+      button.addEventListener("click",()=>{
+        mobileNavButtons.forEach(item=>item.classList.remove("active"));
+        button.classList.add("active");
+      });
+    });
+
+    // Sinkronkan menu aktif ketika hash berubah, termasuk tombol kembali browser.
+    function syncMobileNavFromHash(){
+      const target = (location.hash || "#dashboard").slice(1);
+      const hashMap = {
+        dashboard: 0,
+        addTransaction: 1,
+        transactions: 2
+      };
+      if(!(target in hashMap)) return;
+      mobileNavButtons.forEach(item=>item.classList.remove("active"));
+      mobileNavButtons[hashMap[target]]?.classList.add("active");
+    }
+    window.addEventListener("hashchange",syncMobileNavFromHash);
+    syncMobileNavFromHash();
 
     applyTheme(localStorage.getItem(THEME_KEY)||"light");
     applyPrivacy(localStorage.getItem(PRIVACY_KEY)==="1");
